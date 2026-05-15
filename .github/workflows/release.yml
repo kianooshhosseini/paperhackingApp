@@ -13,14 +13,20 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 20
-      - uses: dtolnay/rust-action@stable
-        with:
-          targets: aarch64-apple-darwin
-      - run: npm install
-      - uses: tauri-apps/tauri-action@v0
+
+      - name: Install Rust target
+        run: rustup target add aarch64-apple-darwin
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Tauri app
+        uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -35,14 +41,20 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 20
-      - uses: dtolnay/rust-action@stable
-        with:
-          targets: x86_64-apple-darwin
-      - run: npm install
-      - uses: tauri-apps/tauri-action@v0
+
+      - name: Install Rust target
+        run: rustup target add x86_64-apple-darwin
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Tauri app
+        uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -57,12 +69,17 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 20
-      - uses: dtolnay/rust-action@stable
-      - run: npm install
-      - uses: tauri-apps/tauri-action@v0
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Tauri app
+        uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
