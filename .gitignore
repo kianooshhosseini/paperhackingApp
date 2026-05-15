@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Build outputs  
+dist/
+*.dmg
+*.msi
+*.exe
+
+# Logs
+npm-debug.log*
+
+# OS files
+.DS_Store
+
+# Tauri build output
+src-tauri/target/
