@@ -8,6 +8,10 @@ on:
         required: true
         default: 'v1.1.0'
 
+# THIS IS THE FIX - give the action permission to write releases
+permissions:
+  contents: write
+
 jobs:
   build-macos-aarch64:
     runs-on: macos-latest
