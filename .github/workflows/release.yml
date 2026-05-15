@@ -1,0 +1,73 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (e.g. v1.1.0)'
+        required: true
+        default: 'v1.1.0'
+
+jobs:
+  build-macos-aarch64:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: dtolnay/rust-action@stable
+        with:
+          targets: aarch64-apple-darwin
+      - run: npm install
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: --target aarch64-apple-darwin
+          tagName: ${{ github.event.inputs.version }}
+          releaseName: "PaperHacking ${{ github.event.inputs.version }}"
+          releaseBody: "See the assets below to download."
+          releaseDraft: true
+          prerelease: false
+
+  build-macos-x86_64:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: dtolnay/rust-action@stable
+        with:
+          targets: x86_64-apple-darwin
+      - run: npm install
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: --target x86_64-apple-darwin
+          tagName: ${{ github.event.inputs.version }}
+          releaseName: "PaperHacking ${{ github.event.inputs.version }}"
+          releaseBody: "See the assets below to download."
+          releaseDraft: true
+          prerelease: false
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: dtolnay/rust-action@stable
+      - run: npm install
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ github.event.inputs.version }}
+          releaseName: "PaperHacking ${{ github.event.inputs.version }}"
+          releaseBody: "See the assets below to download."
+          releaseDraft: true
+          prerelease: false
